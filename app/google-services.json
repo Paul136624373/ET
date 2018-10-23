@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "177449101363",
+    "firebase_url": "https://etogether-7cab8.firebaseio.com",
+    "project_id": "etogether-7cab8",
+    "storage_bucket": "etogether-7cab8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177449101363:android:bf752419c7f9b1a0",
+        "android_client_info": {
+          "package_name": "comp5620.sydney.edu.au.et"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177449101363-r0lpemuusuti9bp2sktthp24vnnhv2mb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "comp5620.sydney.edu.au.et",
+            "certificate_hash": "343ee5a082de244aa471347d66c2052212a55fcf"
+          }
+        },
+        {
+          "client_id": "177449101363-0u264hen7ps3r1rju27kmp2u1pvsslds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMJqieUY_JGTjVGpcza3hysPMvH4u1S5I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177449101363-0u264hen7ps3r1rju27kmp2u1pvsslds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
