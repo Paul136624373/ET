@@ -9,21 +9,14 @@ import android.widget.Button;
 
 import comp5620.sydney.edu.au.et.R;
 
-public class Register2Activity extends Activity {
+public class RegisterRestaurantActivity extends Activity {
 
-    //private TextView display;
-/*
-    private EditText dish;
-
-
-    private ListView hh;
-*/
     private Button add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register2);
+        setContentView(R.layout.activity_register_restaurant);
 
         Button addMenu = (Button) findViewById(R.id.addMenu);
         addMenu.setOnClickListener(new View.OnClickListener() {
@@ -38,14 +31,10 @@ public class Register2Activity extends Activity {
             @Override
             public void onClick(View view) {
 
-            startActivity(new Intent(Register2Activity.this,Main2Activity.class));
+                startActivity(new Intent(RegisterRestaurantActivity.this,MainRestaurantActivity.class));
 
             }
         });
-
-
-
-
     }
 
     public void show()
@@ -58,8 +47,6 @@ public class Register2Activity extends Activity {
 
 
         add = (Button) dialog.findViewById(R.id.addDish);
-        //dish = (EditText) dialog.findViewById(R.id.edDish);
-       // diaplay = (ListView)findViewById(R.id.menuDisplay);
 
         add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -69,6 +56,4 @@ public class Register2Activity extends Activity {
         });
 
     }
-
-
 }

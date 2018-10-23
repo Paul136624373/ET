@@ -45,9 +45,9 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
 
                 if(type.equals("customer"))
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this,MainCustomerActivity.class));
                 else if (type.equals("restaurant"))
-                    startActivity(new Intent(LoginActivity.this,Main2Activity.class));
+                    startActivity(new Intent(LoginActivity.this,MainRestaurantActivity.class));
             }
         });
 
@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,Register1Activity.class));
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
             }
         });
 

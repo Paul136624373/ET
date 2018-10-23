@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_customer_group"
+        android:icon="@drawable/ic_customer_group"
+        android:title="Group" />
+
+    <item
+        android:id="@+id/navigation_customer_forum"
+        android:icon="@drawable/ic_customer_forum"
+        android:title="Forum" />
+
+    <item
+        android:id="@+id/navigation_customer_friend"
+        android:icon="@drawable/ic_customer_friend"
+        android:title="Friends" />
+
+    <item
+        android:id="@+id/navigation_customer_profile"
+        android:icon="@drawable/ic_profiles"
+        android:title="Profile" />
+
+</menu>

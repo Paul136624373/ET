@@ -8,19 +8,19 @@ import android.widget.Button;
 
 import comp5620.sydney.edu.au.et.R;
 
-public class Register3Activity extends Activity {
+public class RegisterCustomerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register3);
+        setContentView(R.layout.activity_register_customer);
 
         Button saveCu = (Button) findViewById(R.id.saveCu);
         saveCu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-            startActivity(new Intent(Register3Activity.this,MainActivity.class));
+                startActivity(new Intent(RegisterCustomerActivity.this,MainCustomerActivity.class));
 
             }
         });

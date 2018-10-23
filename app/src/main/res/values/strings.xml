@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ET</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main_customer">MainCustomerActivity</string>
+    <string name="title_activity_main_register">MainRegisterActivity</string>
+    <string name="title_activity_main_restaurant">MainRestaurantActivity</string>
 </resources>
