@@ -1,18 +1,41 @@
 package comp5620.sydney.edu.au.et.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import comp5620.sydney.edu.au.et.R;
+import comp5620.sydney.edu.au.et.model.Customer;
+import comp5620.sydney.edu.au.et.model.Restaurant;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class LoginActivity extends Activity {
 
     private RadioGroup rg;
     private String type;
+    private List<Customer> allCustomers;
+    private List<Restaurant> allRestaurants;
+    private Customer theCustomer;
+    private Restaurant theRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +67,106 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                if(type.equals("customer"))
-                    startActivity(new Intent(LoginActivity.this,MainCustomerActivity.class));
-                else if (type.equals("restaurant"))
-                    startActivity(new Intent(LoginActivity.this,MainRestaurantActivity.class));
+                EditText username_et = findViewById(R.id.login_username);
+                EditText password_et = findViewById(R.id.login_password);
+
+                String username = username_et.getText().toString();
+                String password = password_et.getText().toString();
+
+                if(type.equals("customer")) {
+
+                    for(Customer customer : allCustomers)
+                    {
+                        if(username.equals(customer.getUsername()))
+                        {
+                            if(password.equals(customer.getPassword())) {
+                                theCustomer = customer;
+                                Intent intent = new Intent(LoginActivity.this,MainCustomerActivity.class);
+                                intent.putExtra("currentCustomer", (Serializable) theCustomer);
+                                startActivity(intent);
+
+                                finish();
+                                return;
+                            }
+                            else {
+                                // The password is wrong
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setTitle("Wrong password")
+                                        .setMessage("The password is wrong.")
+                                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                // Back to the login page
+                                            }
+                                        });
+
+                                builder.create().show();
+                                return;
+                            }
+                        }
+                    }
+
+                    // The username is wrong
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle("Wrong username")
+                            .setMessage("The username is wrong.")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the login page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+
+                }
+                else if (type.equals("restaurant")) {
+
+                    for(Restaurant restaurant : allRestaurants)
+                    {
+                        if(username.equals(restaurant.getUsername()))
+                        {
+                            if(password.equals(restaurant.getPassword())) {
+                                theRestaurant = restaurant;
+                                Intent intent = new Intent(LoginActivity.this,MainRestaurantActivity.class);
+                                intent.putExtra("currentRestaurant", (Serializable) theRestaurant);
+                                startActivity(intent);
+
+                                finish();
+                                return;
+                            }
+                            else {
+                                // The password is wrong
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setTitle("Wrong password")
+                                        .setMessage("The password is wrong.")
+                                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                // Back to the login page
+                                            }
+                                        });
+
+                                builder.create().show();
+                                return;
+                            }
+                        }
+                    }
+                    // The username is wrong
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle("Wrong username")
+                            .setMessage("The username is wrong.")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the login page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+                }
             }
         });
 
@@ -55,9 +174,82 @@ public class LoginActivity extends Activity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                intent.putExtra("allCustomers", (Serializable) allCustomers);
+                intent.putExtra("allRestaurants", (Serializable) allRestaurants);
+                startActivity(intent);
+
+                finish();
             }
         });
 
+
+        // Read customers from database
+        allCustomers = new ArrayList<>();
+        readCustomersFromServer();
+        // Read restaurants from database
+        allRestaurants = new ArrayList<>();
+        readRestaurantsFromServer();
+
+    }
+
+    // Get all customer accounts from server
+    private void readCustomersFromServer()
+    {
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference date = mReference.child("customers");
+
+        // Read from the database
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                allCustomers.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    Customer oneCustomer = postSnapshot.getValue(Customer.class);
+
+                    allCustomers.add(oneCustomer);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    // Get all restaurant accounts from server
+    private void readRestaurantsFromServer()
+    {
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference date = mReference.child("restaurants");
+
+        // Read from the database
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                allRestaurants.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    Restaurant oneRestaurant = postSnapshot.getValue(Restaurant.class);
+
+                    allRestaurants.add(oneRestaurant);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 }

@@ -15,7 +15,6 @@ public class Restaurant implements Serializable {
 
     private String username;
     private String password;
-    private String phoneNumber;
     private String address;
     private String restaurantName;
 
@@ -23,10 +22,9 @@ public class Restaurant implements Serializable {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Restaurant(String username, String password, String phoneNumber, String address, String restaurantName) {
+    public Restaurant(String username, String password, String address, String restaurantName) {
         this.username = username;
         this.password = password;
-        this.phoneNumber = phoneNumber;
         this.address = address;
         this.restaurantName = restaurantName;
     }
@@ -45,14 +43,6 @@ public class Restaurant implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {
@@ -76,7 +66,6 @@ public class Restaurant implements Serializable {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         result.put("username", username);
         result.put("password", password);
-        result.put("phoneNumber", phoneNumber);
         result.put("address", address);
         result.put("restaurantName", restaurantName);
 
@@ -90,7 +79,6 @@ public class Restaurant implements Serializable {
         Restaurant that = (Restaurant) o;
         return Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
-                Objects.equals(phoneNumber, that.phoneNumber) &&
                 Objects.equals(address, that.address) &&
                 Objects.equals(restaurantName, that.restaurantName);
     }
@@ -98,6 +86,6 @@ public class Restaurant implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(username, password, phoneNumber, address, restaurantName);
+        return Objects.hash(username, password, address, restaurantName);
     }
 }
