@@ -21,21 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comp5620.sydney.edu.au.et.R;
-import comp5620.sydney.edu.au.et.adapter.MyViewPagerAdapter;
 
 public class MainCustomerActivity extends Activity {
 
-    private TextView mTextMessage;
-
-    // For forum function
-    private ViewPager mViewPager;
-    private TabLayout mTab;
-    private MyViewPagerAdapter mAdapter;
-    private List<ListView> mListView;
-    private List<String> titleList;
-    private ListView postView;
-    private ListView groupView;
-    private ListView MessageView;
+    private TextView topBar_text;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -47,41 +36,33 @@ public class MainCustomerActivity extends Activity {
             ConstraintLayout createGroup = findViewById(R.id.create_group);
             ConstraintLayout createPost = findViewById(R.id.create_post);
 
+            topBar_text = (TextView)findViewById(R.id.topBar_text);
+
             switch (item.getItemId()) {
                 case R.id.navigation_customer_group:
                     createGroup.setVisibility(View.VISIBLE);
                     createPost.setVisibility(View.INVISIBLE);
-
-                    mTextMessage.setText("Group");
-                    // Initialize the view of Post and Message
-                    initGroupView();
-
-                    // Initialize the tab of forum
-                    initGroupTab();
+                    topBar_text.setText("View Group");
                     return true;
+
                 case R.id.navigation_customer_forum:
                     createGroup.setVisibility(View.INVISIBLE);
                     createPost.setVisibility(View.VISIBLE);
-
-                    mTextMessage.setText("Forum");
-                    // Initialize the view of Post and Message
-                    initForumView();
-                    // Initialize the tab of forum
-                    initForumTab();
-
+                    topBar_text.setText("View Post");
                     return true;
+
                 case R.id.navigation_customer_friend:
                     createGroup.setVisibility(View.INVISIBLE);
                     createPost.setVisibility(View.INVISIBLE);
-
-                    mTextMessage.setText("Friends");
+                    topBar_text.setText("My Friends");
                     return true;
+
                 case R.id.navigation_customer_profile:
                     createGroup.setVisibility(View.INVISIBLE);
                     createPost.setVisibility(View.INVISIBLE);
-
-                    mTextMessage.setText("Profile");
+                    topBar_text.setText("Profile");
                     return true;
+
             }
             return false;
         }
@@ -92,7 +73,6 @@ public class MainCustomerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_customer);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -123,82 +103,6 @@ public class MainCustomerActivity extends Activity {
         });
 
         // End of forum function
-    }
-
-    // Initialize the tab of forum interface
-    public void initForumTab(){
-        mViewPager = (ViewPager) findViewById(R.id.page);
-
-        titleList = new ArrayList<>();
-        titleList.add("Post");
-        titleList.add("Message");
-
-        mTab = (TabLayout) findViewById(R.id.tab);
-        mTab.setTabMode(TabLayout.MODE_FIXED);
-
-        for (int i = 0; i < titleList.size(); i++) {
-            mTab.addTab(mTab.newTab().setText(titleList.get(i)));
-        }
-
-        mTab.setupWithViewPager(mViewPager);
-
-        mAdapter = new MyViewPagerAdapter(mListView,titleList);
-
-        mViewPager.setAdapter(mAdapter);
-    }
-
-    // Initialize the tab of activity interface
-    public void initGroupTab(){
-        mViewPager = (ViewPager) findViewById(R.id.page);
-
-        titleList = new ArrayList<>();
-        titleList.add("Activity");
-        titleList.add("Message");
-
-        mTab = (TabLayout) findViewById(R.id.tab);
-        mTab.setTabMode(TabLayout.MODE_FIXED);
-
-        for (int i = 0; i < titleList.size(); i++) {
-            mTab.addTab(mTab.newTab().setText(titleList.get(i)));
-        }
-
-        mTab.setupWithViewPager(mViewPager);
-
-        mAdapter = new MyViewPagerAdapter(mListView,titleList);
-
-        mViewPager.setAdapter(mAdapter);
-    }
-
-    // Initialize the view of Post and Message
-    public void initForumView(){
-        mListView = new ArrayList<>();
-        postView = new ListView(this);
-        MessageView = new ListView(this);
-        MessageView.setPadding(40,20,20, 40);
-        MessageView.setDivider(new ColorDrawable(Color.GRAY));
-        MessageView.setDividerHeight(2);
-
-        BottomNavigationView theNavigation = findViewById(R.id.navigation);
-
-        mListView.add(postView);
-        mListView.add(MessageView);
-
-    }
-
-    // Initialize the view of Activity and Message
-    public void initGroupView(){
-        mListView = new ArrayList<>();
-        groupView = new ListView(this);
-        MessageView = new ListView(this);
-        MessageView.setPadding(40,20,20, 40);
-        MessageView.setDivider(new ColorDrawable(Color.GRAY));
-        MessageView.setDividerHeight(2);
-
-        BottomNavigationView theNavigation = findViewById(R.id.navigation);
-
-        mListView.add(groupView);
-        mListView.add(MessageView);
-
     }
 
 }

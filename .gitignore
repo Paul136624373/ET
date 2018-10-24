@@ -10,3 +10,6 @@
 /captures
 .externalNativeBuild
 .idea/misc.xml
+.idea/assetWizardSettings.xml
+.gitignore
+.idea/misc.xml

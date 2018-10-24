@@ -7,16 +7,38 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainCustomerActivity">
 
-    <TextView
-        android:id="@+id/message"
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#c4dff9">
+
+        <TextView
+            android:id="@+id/topBar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="View Group"
+            android:textSize="20dp"
+            android:textColor="#000000"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/displayAllGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -46,12 +68,14 @@
             android:id="@+id/fab_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/fab"
             android:layout_margin="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/fab"
+            android:src="@drawable/ic_plus_white"
             app:elevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:src="@drawable/ic_plus_white" />
+            app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
     <!--- End of Group interface-->
@@ -67,46 +91,17 @@
         android:id="@+id/create_post"
         android:visibility="invisible">
 
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/navigation_customer_group"
-            android:id="@+id/forum_interface"
-            android:visibility="invisible">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#90e4fc"
-                app:tabTextColor="#a1a1a1"
-                app:tabSelectedTextColor="#fc000000"
-                app:tabIndicatorColor="#fc000000"
-                />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/page"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/fab"
             android:layout_margin="16dp"
+            android:background="@drawable/fab"
+            android:src="@drawable/ic_plus_white"
+            app:backgroundTint="#7498fa"
             app:elevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:src="@drawable/ic_plus_white"
-            app:backgroundTint="#7498fa"/>
+            app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
     <!--- End of Forum interface-->
