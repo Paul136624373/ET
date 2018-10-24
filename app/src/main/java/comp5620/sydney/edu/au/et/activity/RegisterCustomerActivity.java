@@ -83,6 +83,26 @@ public class RegisterCustomerActivity extends Activity {
                     return;
                 }
 
+                String pattern = "^\\d{10}$";
+
+                boolean isValidPhone = Pattern.matches(pattern, phone);
+
+                if(!isValidPhone)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterCustomerActivity.this);
+                    builder.setTitle("Phone number is wrong")
+                            .setMessage("Wrong phone number format.")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the register page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+                }
+
                 gender_rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
