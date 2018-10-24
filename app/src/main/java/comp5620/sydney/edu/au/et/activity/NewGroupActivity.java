@@ -168,7 +168,7 @@ public class NewGroupActivity extends Activity {
                 newGroup.setNumberOfPeople(numberOfPeople);
                 newGroup.setType(type);
 
-                // Add a new member into the group
+
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
                 // Store new restaurant information into the database
@@ -179,12 +179,13 @@ public class NewGroupActivity extends Activity {
                 childUpdates.put("/groups/" +  groupKey, groupValues);
                 mDatabase.updateChildren(childUpdates);
 
+                // Add a new member into the group
                 String memberKey = mDatabase.child("groups").child(groupKey).child("members").push().getKey();
 
                 Map<String, String> members_detail = new LinkedHashMap<>();
 
                 members_detail.put("username", currentCustomer.getUsername());
-                members_detail.put("phoneNumber", currentCustomer.getPhoneNumber());
+                members_detail.put("phone", currentCustomer.getPhoneNumber());
                 members_detail.put("flavour", flavour);
 
                 newGroup.members.put(memberKey, members_detail);

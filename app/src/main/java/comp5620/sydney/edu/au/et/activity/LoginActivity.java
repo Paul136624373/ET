@@ -24,6 +24,7 @@ import java.util.Map;
 
 import comp5620.sydney.edu.au.et.R;
 import comp5620.sydney.edu.au.et.model.Customer;
+import comp5620.sydney.edu.au.et.model.Group;
 import comp5620.sydney.edu.au.et.model.Restaurant;
 
 import static android.support.constraint.Constraints.TAG;
@@ -34,6 +35,8 @@ public class LoginActivity extends Activity {
     private String type;
     private List<Customer> allCustomers;
     private List<Restaurant> allRestaurants;
+    private List<Group> allGroups;
+    private List<Group> showGroups;
     private Customer theCustomer;
     private Restaurant theRestaurant;
 
@@ -81,8 +84,38 @@ public class LoginActivity extends Activity {
                         {
                             if(password.equals(customer.getPassword())) {
                                 theCustomer = customer;
+
+                                for(Group oneGroup : allGroups)
+                                {
+                                    int currentNumber = oneGroup.members.size();
+                                    boolean exist = false;
+                                    // Get the members' information
+                                    for (Map<String, String> member : oneGroup.members.values()) {
+                                        for (Map.Entry<String, String> field : member.entrySet()) {
+                                            if(field.getValue().equals(theCustomer.getUsername()))
+                                            {
+                                                exist = true;
+                                                break;
+                                            }
+                                        }
+                                        if(exist)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    if(!exist)
+                                    {
+                                        if(currentNumber < Integer.parseInt(oneGroup.getNumberOfPeople()) && oneGroup.getType().equals("Public")) {
+                                            showGroups.add(oneGroup);
+                                        }
+                                    }
+                                }
+
                                 Intent intent = new Intent(LoginActivity.this,MainCustomerActivity.class);
                                 intent.putExtra("currentCustomer", (Serializable) theCustomer);
+                                intent.putExtra("allRestaurants", (Serializable) allRestaurants);
+                                intent.putExtra("allGroups", (Serializable) allGroups);
+                                intent.putExtra("showGroups", (Serializable) showGroups);
                                 startActivity(intent);
 
                                 finish();
@@ -190,6 +223,10 @@ public class LoginActivity extends Activity {
         // Read restaurants from database
         allRestaurants = new ArrayList<>();
         readRestaurantsFromServer();
+        // Read groups from database
+        allGroups = new ArrayList<>();
+        showGroups = new ArrayList<>();
+        readGroupsFromServer();
 
     }
 
@@ -242,6 +279,36 @@ public class LoginActivity extends Activity {
                     Restaurant oneRestaurant = postSnapshot.getValue(Restaurant.class);
 
                     allRestaurants.add(oneRestaurant);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    // Get all groups from server
+    private void readGroupsFromServer()
+    {
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference date = mReference.child("groups");
+
+        // Read from the database
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                allGroups.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    Group oneGroup = postSnapshot.getValue(Group.class);
+
+                    allGroups.add(oneGroup);
                 }
             }
 
