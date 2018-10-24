@@ -30,4 +30,85 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/navigation_customer" />
 
+    <!--- Start of Group interface-->
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        android:paddingBottom="50dp"
+        android:id="@+id/create_group"
+        android:visibility="visible">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fab"
+            android:layout_margin="16dp"
+            app:elevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/ic_plus_white" />
+
+    </android.support.constraint.ConstraintLayout>
+    <!--- End of Group interface-->
+
+    <!--- Start of Forum interface-->
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        android:paddingBottom="50dp"
+        android:id="@+id/create_post"
+        android:visibility="invisible">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/navigation_customer_group"
+            android:id="@+id/forum_interface"
+            android:visibility="invisible">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#90e4fc"
+                app:tabTextColor="#a1a1a1"
+                app:tabSelectedTextColor="#fc000000"
+                app:tabIndicatorColor="#fc000000"
+                />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/page"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fab"
+            android:layout_margin="16dp"
+            app:elevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/ic_plus_white"
+            app:backgroundTint="#7498fa"/>
+
+    </android.support.constraint.ConstraintLayout>
+    <!--- End of Forum interface-->
+
 </android.support.constraint.ConstraintLayout>

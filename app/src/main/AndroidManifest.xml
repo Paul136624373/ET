@@ -24,7 +24,8 @@
             android:label="@string/title_activity_main_customer" />
         <activity
             android:name=".activity.MainRestaurantActivity"
-            android:label="@string/title_activity_main_restaurant"></activity>
+            android:label="@string/title_activity_main_restaurant" />
+        <activity android:name=".activity.NewGroupActivity"></activity>
     </application>
 
 </manifest>
