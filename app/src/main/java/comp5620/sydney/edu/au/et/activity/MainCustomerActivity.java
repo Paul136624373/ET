@@ -17,14 +17,19 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import comp5620.sydney.edu.au.et.R;
+import comp5620.sydney.edu.au.et.model.Customer;
 
 public class MainCustomerActivity extends Activity {
 
     private TextView topBar_text;
+
+
+    private Customer currentCustomer;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,6 +78,8 @@ public class MainCustomerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_customer);
 
+        currentCustomer = (Customer) getIntent().getSerializableExtra("currentCustomer");
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -83,7 +90,9 @@ public class MainCustomerActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainCustomerActivity.this,NewGroupActivity.class));
+                Intent intent = new Intent(MainCustomerActivity.this,NewGroupActivity.class);
+                intent.putExtra("currentCustomer", (Serializable) currentCustomer);
+                startActivity(intent);
 
             }
         });

@@ -30,8 +30,6 @@ public class RegisterCustomerActivity extends Activity {
     private List<Customer> allCustomers;
     private List<Restaurant> allRestaurants;
     private Customer newCustomer;
-    private String gender;
-    private RadioButton radioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +59,8 @@ public class RegisterCustomerActivity extends Activity {
                 String givenName = givenName_et.getText().toString();
                 String phone = phone_et.getText().toString();
                 String address = address_et.getText().toString();
-                radioButton = (RadioButton)findViewById(gender_rg.getCheckedRadioButtonId());
-                gender = radioButton.getText().toString();
+                RadioButton radioButton = (RadioButton)findViewById(gender_rg.getCheckedRadioButtonId());
+                String gender = radioButton.getText().toString();
 
                 if(isEmpty("Username", username)) {
                     return;
@@ -91,7 +89,7 @@ public class RegisterCustomerActivity extends Activity {
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterCustomerActivity.this);
                     builder.setTitle("Phone number is wrong")
-                            .setMessage("Wrong phone number format.")
+                            .setMessage("Wrong phone number format. Can only contains 10 digits.")
                             .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -102,14 +100,6 @@ public class RegisterCustomerActivity extends Activity {
                     builder.create().show();
                     return;
                 }
-
-                gender_rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        radioButton = (RadioButton)findViewById(group.getCheckedRadioButtonId());
-                        gender = radioButton.getText().toString();
-                    }
-                });
 
                 // Check username in customer and restaurant account
                 for(Customer customer : allCustomers)
