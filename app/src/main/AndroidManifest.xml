@@ -25,7 +25,12 @@
         <activity
             android:name=".activity.MainRestaurantActivity"
             android:label="@string/title_activity_main_restaurant" />
-        <activity android:name=".activity.NewGroupActivity"></activity>
+        <activity android:name=".activity.NewGroupActivity" />
+        <activity android:name=".activity.NewPostActivity" />
+        <activity android:name=".activity.ViewPostActivity" />
+        <activity android:name=".activity.NewCommentActivity" />
+        <activity android:name=".activity.MyPostActivity" />
+        <activity android:name=".activity.MyGroupActivity"></activity>
     </application>
 
 </manifest>
