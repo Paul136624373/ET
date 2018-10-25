@@ -1,6 +1,7 @@
 package comp5620.sydney.edu.au.et.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +38,11 @@ import static android.support.constraint.Constraints.TAG;
 public class MainCustomerActivity extends Activity {
 
     private TextView topBar_text;
+    private ListView displayAllGroup;
+    private ListView displayAllPost;
+    private ListView displayAllFriend;
+    private ImageButton add_friend;
+    private Button addFriend_dialog;
 
     private Customer currentCustomer;
 
@@ -55,31 +63,68 @@ public class MainCustomerActivity extends Activity {
             // floating action button for group and forum
             ConstraintLayout createGroup = findViewById(R.id.create_group);
             ConstraintLayout createPost = findViewById(R.id.create_post);
+            ConstraintLayout customer_profile = findViewById(R.id.customer_profile);
 
             topBar_text = (TextView)findViewById(R.id.topBar_text);
+            displayAllGroup = (ListView)findViewById(R.id.displayAllGroup);
+            displayAllPost = (ListView)findViewById(R.id.displayAllPost);
+            displayAllFriend = (ListView)findViewById(R.id.displayAllFriend);
+
+            add_friend = (ImageButton)findViewById(R.id.add_friend);
+            add_friend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    show();
+                }
+            });
 
             switch (item.getItemId()) {
                 case R.id.navigation_customer_group:
                     createGroup.setVisibility(View.VISIBLE);
                     createPost.setVisibility(View.INVISIBLE);
+                    customer_profile.setVisibility(View.INVISIBLE);
+                    displayAllFriend.setVisibility(View.INVISIBLE);
+                    displayAllGroup.setVisibility(View.VISIBLE);
+                    displayAllPost.setVisibility(View.INVISIBLE);
+
+                    add_friend.setVisibility(View.INVISIBLE);
+
                     topBar_text.setText("View Group");
                     return true;
 
                 case R.id.navigation_customer_forum:
                     createGroup.setVisibility(View.INVISIBLE);
                     createPost.setVisibility(View.VISIBLE);
+                    customer_profile.setVisibility(View.INVISIBLE);
+                    displayAllFriend.setVisibility(View.INVISIBLE);
+                    displayAllGroup.setVisibility(View.INVISIBLE);
+                    displayAllPost.setVisibility(View.VISIBLE);
+                    add_friend.setVisibility(View.INVISIBLE);
+
                     topBar_text.setText("View Post");
                     return true;
 
                 case R.id.navigation_customer_friend:
                     createGroup.setVisibility(View.INVISIBLE);
                     createPost.setVisibility(View.INVISIBLE);
+                    customer_profile.setVisibility(View.INVISIBLE);
+                    displayAllFriend.setVisibility(View.VISIBLE);
+                    displayAllGroup.setVisibility(View.INVISIBLE);
+                    displayAllPost.setVisibility(View.INVISIBLE);
+                    add_friend.setVisibility(View.VISIBLE);
+
                     topBar_text.setText("My Friends");
                     return true;
 
                 case R.id.navigation_customer_profile:
                     createGroup.setVisibility(View.INVISIBLE);
                     createPost.setVisibility(View.INVISIBLE);
+                    customer_profile.setVisibility(View.VISIBLE);
+                    displayAllFriend.setVisibility(View.INVISIBLE);
+                    displayAllGroup.setVisibility(View.INVISIBLE);
+                    displayAllPost.setVisibility(View.INVISIBLE);
+                    add_friend.setVisibility(View.INVISIBLE);
+
                     topBar_text.setText("Profile");
                     return true;
 
@@ -245,5 +290,25 @@ public class MainCustomerActivity extends Activity {
         ListView group_lv = findViewById(R.id.displayAllGroup);
         showGroupAdapter = new ShowGroupAdapter(MainCustomerActivity.this,0, showGroups, currentCustomer);
         group_lv.setAdapter(showGroupAdapter);
+    }
+
+    public void show()
+    {
+        final Dialog dialog = new Dialog(this);
+        dialog.setTitle("ADD Friend");
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.add_friend);
+        dialog.show();
+
+
+        addFriend_dialog = (Button) dialog.findViewById(R.id.addFriend);
+
+        addFriend_dialog.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                //diaplay.setText(dish.getText().toString());
+                dialog.dismiss();
+            }
+        });
+
     }
 }

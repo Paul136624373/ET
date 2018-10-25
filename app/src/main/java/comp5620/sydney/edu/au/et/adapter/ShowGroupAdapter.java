@@ -117,7 +117,7 @@ public class ShowGroupAdapter extends ArrayAdapter<Group> {
 
                 final Dialog dialog = new Dialog(context);
                 dialog.setTitle("Choose Flavour");
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);
                 final View layout = View.inflate(context, R.layout.ask_flavor,null);
                 dialog.setContentView(layout);
                 dialog.show();

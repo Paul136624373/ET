@@ -22,7 +22,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -38,7 +38,6 @@
             android:text="1/5"
             android:textSize="15dp" />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +51,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -81,7 +80,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -109,7 +108,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -137,7 +136,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -156,7 +155,7 @@
 
     <TextView
         android:id="@+id/show_time"
-        android:layout_width="360dp"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_gravity="center"
@@ -167,7 +166,7 @@
 
     <Button
         android:id="@+id/btConfirm"
-        android:layout_width="340dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
@@ -181,7 +180,7 @@
 
     <Button
         android:id="@+id/btComment"
-        android:layout_width="340dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"

@@ -7,7 +7,8 @@
     android:paddingBottom="5dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    android:background="@drawable/public_border">
     <!-- android:background="@drawable/public_border"   public group border-->
     <!-- android:background="@drawable/private_border"   private group border-->
 
@@ -22,7 +23,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -38,7 +39,6 @@
             android:text="1/5"
             android:textSize="15dp" />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +52,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -81,7 +81,7 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -98,9 +98,37 @@
             android:textSize="15dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp">
+
+        <TextView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Location:"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="8 hampden st"
+            android:textSize="15dp" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/show_time"
-        android:layout_width="360dp"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_gravity="center"
@@ -111,7 +139,7 @@
 
     <Button
         android:id="@+id/btJoin"
-        android:layout_width="340dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"

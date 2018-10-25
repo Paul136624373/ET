@@ -45,6 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBar"
         android:divider="#00000000"
-        android:dividerHeight="10dp"/>
+        android:dividerHeight="8dp"/>
 
 </android.support.constraint.ConstraintLayout>
