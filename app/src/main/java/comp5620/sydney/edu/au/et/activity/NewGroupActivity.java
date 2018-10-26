@@ -140,6 +140,22 @@ public class NewGroupActivity extends Activity {
                     return;
                 }
 
+                if(Integer.parseInt(numberOfPeople) != (newGroup.invites.size() + 1))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NewGroupActivity.this);
+                    builder.setTitle("Number of people is wrong")
+                            .setMessage("Number of people in private group should be number of invitation + 1(You).")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the register page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+                }
+
                 // Validate time for eating
                 if(!isValidDate(eatingTime))
                 {
@@ -198,25 +214,9 @@ public class NewGroupActivity extends Activity {
                         builder.create().show();
                         return;
                     }
-                    if(Integer.parseInt(numberOfPeople) != (newGroup.invites.size() + 1))
-                    {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(NewGroupActivity.this);
-                        builder.setTitle("Number of people is wrong")
-                                .setMessage("Number of people in private group should be number of invitation + 1(You).")
-                                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        // Back to the register page
-                                    }
-                                });
-
-                        builder.create().show();
-                        return;
-                    }
                 }
 
                 newGroup.setOwner(currentCustomer.getUsername());
-                newGroup.setOwnerPhone(currentCustomer.getPhoneNumber());
                 newGroup.setCreationTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
                 newGroup.setEatingTime(eatingTime);
                 newGroup.setNumberOfPeople(numberOfPeople);

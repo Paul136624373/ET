@@ -15,7 +15,7 @@ public class Menu implements Serializable {
 
     private String restaurantName;
     private String restaurantAddress;
-    public Map<String, Map<String, String>> dishes = new LinkedHashMap<>();
+    private Map<String, Map<String, String>> dishes = new LinkedHashMap<>();
 
     public Menu() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)

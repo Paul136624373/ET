@@ -28,7 +28,6 @@ import comp5620.sydney.edu.au.et.R;
 import comp5620.sydney.edu.au.et.model.Customer;
 import comp5620.sydney.edu.au.et.model.Friend;
 import comp5620.sydney.edu.au.et.model.Group;
-import comp5620.sydney.edu.au.et.model.Menu;
 import comp5620.sydney.edu.au.et.model.Post;
 import comp5620.sydney.edu.au.et.model.Restaurant;
 
@@ -48,11 +47,6 @@ public class LoginActivity extends Activity {
     private List<Friend> myFriends;
     private Customer theCustomer;
     private Restaurant theRestaurant;
-    private List<Menu> allMenus;
-    private Menu myMenu;
-
-    // Groups for restaurant
-    private List<Group> myGroups;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,29 +208,7 @@ public class LoginActivity extends Activity {
                         {
                             if(password.equals(restaurant.getPassword())) {
                                 theRestaurant = restaurant;
-
-                                for(Menu oneMenu : allMenus)
-                                {
-                                    if(oneMenu.getRestaurantName().equals(theRestaurant.getRestaurantName()))
-                                    {
-                                        myMenu = oneMenu;
-                                        break;
-                                    }
-                                }
-
-
-                                for(Group oneGroup : allGroups)
-                                {
-                                    if(oneGroup.getRestaurantName() != null) {
-                                        if (oneGroup.getRestaurantName().equals(theRestaurant.getRestaurantName())) {
-                                            myGroups.add(oneGroup);
-                                        }
-                                    }
-                                }
-
                                 Intent intent = new Intent(LoginActivity.this,MainRestaurantActivity.class);
-                                intent.putExtra("myMenu", (Serializable) myMenu);
-                                intent.putExtra("myGroups", (Serializable) myGroups);
                                 intent.putExtra("currentRestaurant", (Serializable) theRestaurant);
                                 startActivity(intent);
 
@@ -309,10 +281,6 @@ public class LoginActivity extends Activity {
         allFriends = new ArrayList<>();
         myFriends = new ArrayList<>();
         readFriendsFromServer();
-        // Read menus from database
-        myMenu = new Menu();
-        allMenus = new ArrayList<>();
-        readMenusFromServer();
     }
 
     // Get all customer accounts from server
@@ -460,36 +428,6 @@ public class LoginActivity extends Activity {
                     Friend oneFriend = postSnapshot.getValue(Friend.class);
 
                     allFriends.add(oneFriend);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-    // Get all menus from server
-    private void readMenusFromServer()
-    {
-        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference date = mReference.child("menus");
-
-        // Read from the database
-        date.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                allMenus.clear();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    // TODO: handle the post
-
-                    Menu oneMenu = postSnapshot.getValue(Menu.class);
-
-                    allMenus.add(oneMenu);
                 }
             }
 
