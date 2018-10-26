@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="et.fileProvider"
@@ -46,7 +45,9 @@
         <activity android:name=".activity.ViewPostActivity" />
         <activity android:name=".activity.NewCommentActivity" />
         <activity android:name=".activity.MyPostActivity" />
-        <activity android:name=".activity.MyGroupActivity"></activity>
+        <activity android:name=".activity.MyGroupActivity" />
+        <activity android:name=".activity.RecommendActivity" />
+        <activity android:name=".activity.RestaurantCommentActivity"></activity>
     </application>
 
 </manifest>

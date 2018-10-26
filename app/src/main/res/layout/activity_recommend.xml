@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.RecommendActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#c4dff9">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="72dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="#00000000"
+            android:src="?android:attr/homeAsUpIndicator" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Recommend Restaurant"
+            android:textSize="20dp"
+            android:textColor="#000000"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/recommend_lv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+
+</android.support.constraint.ConstraintLayout>
