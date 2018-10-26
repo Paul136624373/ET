@@ -31,6 +31,7 @@ import comp5620.sydney.edu.au.et.model.Group;
 import comp5620.sydney.edu.au.et.model.Menu;
 import comp5620.sydney.edu.au.et.model.Post;
 import comp5620.sydney.edu.au.et.model.Restaurant;
+import comp5620.sydney.edu.au.et.model.RestaurantComment;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -46,10 +47,13 @@ public class LoginActivity extends Activity {
     private List<Post> myPosts;
     private List<Friend> allFriends;
     private List<Friend> myFriends;
+    private List<RestaurantComment> allRestaurantComments;
+    private List<RestaurantComment> myRestaurantComments;
     private Customer theCustomer;
     private Restaurant theRestaurant;
     private List<Menu> allMenus;
     private Menu myMenu;
+
 
     // Groups for restaurant
     private List<Group> myGroups;
@@ -214,7 +218,7 @@ public class LoginActivity extends Activity {
                         {
                             if(password.equals(restaurant.getPassword())) {
                                 theRestaurant = restaurant;
-
+                                myRestaurantComments = new ArrayList<>();
                                 for(Menu oneMenu : allMenus)
                                 {
                                     if(oneMenu.getRestaurantName().equals(theRestaurant.getRestaurantName()))
@@ -234,9 +238,18 @@ public class LoginActivity extends Activity {
                                     }
                                 }
 
+                                for(RestaurantComment oneRestaurantComment : allRestaurantComments)
+                                {
+                                    if(oneRestaurantComment.getRestaurantName().equals(theRestaurant.getRestaurantName()))
+                                    {
+                                        myRestaurantComments.add(oneRestaurantComment);
+                                    }
+                                }
+
                                 Intent intent = new Intent(LoginActivity.this,MainRestaurantActivity.class);
                                 intent.putExtra("myMenu", (Serializable) myMenu);
                                 intent.putExtra("myGroups", (Serializable) myGroups);
+                                intent.putExtra("myRestaurantComments", (Serializable) myRestaurantComments);
                                 intent.putExtra("currentRestaurant", (Serializable) theRestaurant);
                                 startActivity(intent);
 
@@ -314,6 +327,9 @@ public class LoginActivity extends Activity {
         allMenus = new ArrayList<>();
         myGroups = new ArrayList<>();
         readMenusFromServer();
+        // Read comments from database
+        allRestaurantComments = new ArrayList<>();
+        readCommentsFromServer();
     }
 
     // Get all customer accounts from server
@@ -461,6 +477,36 @@ public class LoginActivity extends Activity {
                     Friend oneFriend = postSnapshot.getValue(Friend.class);
 
                     allFriends.add(oneFriend);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    // Get all comments from server
+    private void readCommentsFromServer()
+    {
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference date = mReference.child("comments");
+
+        // Read from the database
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                allRestaurantComments.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    RestaurantComment oneRestaurantComment = postSnapshot.getValue(RestaurantComment.class);
+
+                    allRestaurantComments.add(oneRestaurantComment);
                 }
             }
 

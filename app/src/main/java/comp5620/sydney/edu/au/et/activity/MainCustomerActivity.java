@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -588,6 +589,17 @@ public class MainCustomerActivity extends Activity {
         givenname_tv.setText(currentCustomer.getGivenName());
         address_tv.setText(currentCustomer.getAddress());
         gender_tv.setText(currentCustomer.getGender());
+
+        ImageView gender_iv = findViewById(R.id.profile_gender);
+
+        if(currentCustomer.getGender().equals("Male"))
+        {
+            gender_iv.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_male));
+        }
+        else
+        {
+            gender_iv.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_female));
+        }
     }
 
 

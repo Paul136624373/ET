@@ -36,7 +36,7 @@
 
     <LinearLayout
         android:id="@+id/username"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
@@ -67,7 +67,7 @@
 
     <LinearLayout
         android:id="@+id/password"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
@@ -97,7 +97,7 @@
 
     <LinearLayout
         android:id="@+id/surname"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
@@ -128,7 +128,7 @@
 
     <LinearLayout
         android:id="@+id/givenname"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginStart="8dp"
@@ -159,7 +159,7 @@
 
     <LinearLayout
         android:id="@+id/phone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
@@ -190,7 +190,7 @@
 
     <LinearLayout
         android:id="@+id/address"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
@@ -221,7 +221,7 @@
 
     <LinearLayout
         android:id="@+id/gender"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"

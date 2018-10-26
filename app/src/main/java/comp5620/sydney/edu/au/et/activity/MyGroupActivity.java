@@ -86,14 +86,16 @@ public class MyGroupActivity extends Activity {
 
             @Override
             public void onCommentClick(Group theGroup) {
-
+                Intent intent = new Intent(MyGroupActivity.this,RestaurantCommentActivity.class);
+                intent.putExtra("theGroup", (Serializable) theGroup);
+                intent.putExtra("currentCustomer", (Serializable) currentCustomer);
+                startActivity(intent);
             }
         });
     }
 
     public void chooseRestaurant(Group theGroup)
     {
-
 
     }
 }

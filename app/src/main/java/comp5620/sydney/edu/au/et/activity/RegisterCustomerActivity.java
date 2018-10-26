@@ -52,6 +52,7 @@ public class RegisterCustomerActivity extends Activity {
         allCustomers =  (ArrayList<Customer>) getIntent().getSerializableExtra("allCustomers");
         allRestaurants =  (ArrayList<Restaurant>) getIntent().getSerializableExtra("allRestaurants");
         allGroups = new ArrayList<>();
+        showGroups = new ArrayList<>();
         allPosts = new ArrayList<>();
 
         Button saveCu = (Button) findViewById(R.id.saveCu);

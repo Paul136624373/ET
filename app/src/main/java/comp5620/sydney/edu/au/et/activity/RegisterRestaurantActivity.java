@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import comp5620.sydney.edu.au.et.R;
+import comp5620.sydney.edu.au.et.adapter.MyMenuAdapter;
 import comp5620.sydney.edu.au.et.model.Customer;
 import comp5620.sydney.edu.au.et.model.Menu;
 import comp5620.sydney.edu.au.et.model.Restaurant;
@@ -41,6 +43,8 @@ public class RegisterRestaurantActivity extends Activity {
     private Button addMenu_dialog;
     private List<Map<String, String>> myDishes;
     private String menuID;
+    private ListView menuDisplay_iv;
+    private MyMenuAdapter myMenuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,10 @@ public class RegisterRestaurantActivity extends Activity {
         newMenu = new Menu();
         myDishes = new ArrayList<>();
         menuID = "";
+
+        menuDisplay_iv = (ListView) findViewById(R.id.menuDisplay);
+        myMenuAdapter = new MyMenuAdapter(RegisterRestaurantActivity.this,0, myDishes);
+        menuDisplay_iv.setAdapter(myMenuAdapter);
 
         Button addMenu = (Button) findViewById(R.id.addMenu);
         addMenu.setOnClickListener(new View.OnClickListener() {
@@ -253,6 +261,13 @@ public class RegisterRestaurantActivity extends Activity {
                 RadioButton flavour_rb = (RadioButton)layout.findViewById(dish_rg.getCheckedRadioButtonId());
                 String dishFlavour = flavour_rb.getText().toString();
 
+                if(dishName.equals("") || dishPrice.equals(""))
+                {
+                    Toast toast=Toast.makeText(getApplicationContext(), "The dish information is not complete.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+
                 boolean exist = false;
                 for(Map<String, String> oneDish : myDishes)
                 {
@@ -285,6 +300,7 @@ public class RegisterRestaurantActivity extends Activity {
                     newMenu.dishes.put(dishKey, detail);
                     newMenu.setMenuID(menuID);
                     myDishes.add(detail);
+                    myMenuAdapter.notifyDataSetChanged();
                 }
             }
         });

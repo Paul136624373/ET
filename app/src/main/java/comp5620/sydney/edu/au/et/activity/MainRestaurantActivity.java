@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,11 +38,13 @@ import comp5620.sydney.edu.au.et.R;
 import comp5620.sydney.edu.au.et.adapter.MyFriendsAdapter;
 import comp5620.sydney.edu.au.et.adapter.MyMenuAdapter;
 import comp5620.sydney.edu.au.et.adapter.ReservationAdapter;
+import comp5620.sydney.edu.au.et.adapter.RestaurantCommentAdapter;
 import comp5620.sydney.edu.au.et.model.Customer;
 import comp5620.sydney.edu.au.et.model.Friend;
 import comp5620.sydney.edu.au.et.model.Group;
 import comp5620.sydney.edu.au.et.model.Menu;
 import comp5620.sydney.edu.au.et.model.Restaurant;
+import comp5620.sydney.edu.au.et.model.RestaurantComment;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -60,6 +63,8 @@ public class MainRestaurantActivity extends Activity {
     private List<Map<String, String>> myDishes;
     private ReservationAdapter reservationAdapter;
     private MyMenuAdapter myMenuAdapter;
+    private List<RestaurantComment> myRestaurantComments;
+    private RestaurantCommentAdapter restaurantCommentAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -98,6 +103,8 @@ public class MainRestaurantActivity extends Activity {
                     displayAllComment.setVisibility(View.VISIBLE);
                     displayAllMenu.setVisibility(View.INVISIBLE);
                     add_menu.setVisibility(View.INVISIBLE);
+
+                    initCommentView();
 
                     topBar_text.setText("Received comments");
                     return true;
@@ -138,6 +145,7 @@ public class MainRestaurantActivity extends Activity {
         currentRestaurant = (Restaurant) getIntent().getSerializableExtra("currentRestaurant");
         myGroups = (List<Group>) getIntent().getSerializableExtra("myGroups");
         myMenu = (Menu) getIntent().getSerializableExtra("myMenu");
+        myRestaurantComments = (List<RestaurantComment>) getIntent().getSerializableExtra("myRestaurantComments");
         if(myGroups == null) {
             myGroups = new ArrayList<>();
         }
@@ -155,6 +163,7 @@ public class MainRestaurantActivity extends Activity {
         // Read data from server
         readMenusFromServer();
         readGroupsFromServer();
+        readCommentsFromServer();
 
         Button btn_logout = findViewById(R.id.logout);
 
@@ -212,6 +221,13 @@ public class MainRestaurantActivity extends Activity {
                 RadioButton flavour_rb = (RadioButton)layout.findViewById(dish_rg.getCheckedRadioButtonId());
                 String dishFlavour = flavour_rb.getText().toString();
 
+                if(dishName.equals("") || dishPrice.equals(""))
+                {
+                    Toast toast=Toast.makeText(getApplicationContext(), "The dish information is not complete.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+
                 boolean exist = false;
                 for(Map<String, String> oneDish : myDishes)
                 {
@@ -256,6 +272,15 @@ public class MainRestaurantActivity extends Activity {
         ListView reservation_lv = findViewById(R.id.displayAllReservation);
         reservationAdapter = new ReservationAdapter(MainRestaurantActivity.this,0, myGroups);
         reservation_lv.setAdapter(reservationAdapter);
+
+    }
+
+    // Initialize the view of Comments
+    public void initCommentView(){
+        ListView comment_lv = findViewById(R.id.displayAllComment);
+        restaurantCommentAdapter = new RestaurantCommentAdapter(MainRestaurantActivity.this,0, myRestaurantComments);
+        comment_lv.setAdapter(restaurantCommentAdapter);
+
     }
 
     // Initialize the view of Friend
@@ -342,6 +367,42 @@ public class MainRestaurantActivity extends Activity {
                 }
                 if(myMenuAdapter != null){
                     myMenuAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+
+    // Get all comments from server
+    private void readCommentsFromServer()
+    {
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference date = mReference.child("comments");
+
+        // Read from the database
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                myRestaurantComments.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    RestaurantComment oneRestaurantComment = postSnapshot.getValue(RestaurantComment.class);
+
+                    if(oneRestaurantComment.getRestaurantName().equals(currentRestaurant.getRestaurantName())) {
+                        myRestaurantComments.add(oneRestaurantComment);
+                    }
+                }
+                if(restaurantCommentAdapter != null){
+                    restaurantCommentAdapter.notifyDataSetChanged();
                 }
             }
 
