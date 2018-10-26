@@ -199,7 +199,7 @@ public class RegisterRestaurantActivity extends Activity {
 
                 Intent intent = new Intent(RegisterRestaurantActivity.this,MainRestaurantActivity.class);
                 intent.putExtra("currentRestaurant", (Serializable) newRestaurant);
-                intent.putExtra("newMenu", (Serializable) newMenu);
+                intent.putExtra("myMenu", (Serializable) newMenu);
                 startActivity(intent);
 
                 finish();
