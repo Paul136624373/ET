@@ -81,6 +81,23 @@ public class RegisterCustomerActivity extends Activity {
                     return;
                 }
 
+                if(username.length() < 2)
+                {
+                    // The username is not good
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterCustomerActivity.this);
+                    builder.setTitle("Bad Username")
+                            .setMessage("Sorry, Username must contain more than two characters.")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the register page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+                }
+
                 String pattern = "^\\d{10}$";
 
                 boolean isValidPhone = Pattern.matches(pattern, phone);

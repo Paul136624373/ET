@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,11 +25,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import comp5620.sydney.edu.au.et.R;
+import comp5620.sydney.edu.au.et.adapter.MyFriendsAdapter;
 import comp5620.sydney.edu.au.et.model.Customer;
+import comp5620.sydney.edu.au.et.model.Friend;
 import comp5620.sydney.edu.au.et.model.Group;
 
 public class NewGroupActivity extends Activity {
@@ -38,6 +42,10 @@ public class NewGroupActivity extends Activity {
     private ListView friendDisplay;
     private Group newGroup;
     private Customer currentCustomer;
+    private List<Friend> inviteFriends;
+    private List<Friend> restFriends;
+    private MyFriendsAdapter myFriendsAdapter;
+    private List<Customer> allCustomers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,9 @@ public class NewGroupActivity extends Activity {
         setContentView(R.layout.activity_new_group);
 
         currentCustomer = (Customer) getIntent().getSerializableExtra("currentCustomer");
+        allCustomers = (List<Customer>) getIntent().getSerializableExtra("allCustomers");
+        restFriends = (List<Friend>) getIntent().getSerializableExtra("myFriends");
+        inviteFriends = new ArrayList<>();
         newGroup = new Group();
 
         rg = (RadioGroup)findViewById(R.id.rgType);
@@ -77,6 +88,10 @@ public class NewGroupActivity extends Activity {
                 show();
             }
         });
+
+        ListView friendDisplay_lv = findViewById(R.id.friendDisplay);
+        myFriendsAdapter = new MyFriendsAdapter(NewGroupActivity.this,0, inviteFriends, currentCustomer, allCustomers);
+        friendDisplay_lv.setAdapter(myFriendsAdapter);
 
         ImageButton saveGroup = (ImageButton) findViewById(R.id.group_save);
         saveGroup.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +140,51 @@ public class NewGroupActivity extends Activity {
                     return;
                 }
 
+                if(Integer.parseInt(numberOfPeople) != (newGroup.invites.size() + 1))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NewGroupActivity.this);
+                    builder.setTitle("Number of people is wrong")
+                            .setMessage("Number of people in private group should be number of invitation + 1(You).")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the register page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+                }
+
                 // Validate time for eating
                 if(!isValidDate(eatingTime))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(NewGroupActivity.this);
                     builder.setTitle("Time for eating is wrong")
                             .setMessage("Time for eating must in yyyy/MM/dd HH:mm format.")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the register page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+                }
+
+
+                // If the eating time is earlier than now
+                String currentTime = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+                String eatingTime_judge = eatingTime;
+                eatingTime_judge = eatingTime_judge.replace("/", "");
+                eatingTime_judge = eatingTime_judge.replace(" ", "");
+                eatingTime_judge = eatingTime_judge.replace(":", "");
+                if(Long.parseLong(eatingTime_judge) < Long.parseLong(currentTime))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NewGroupActivity.this);
+                    builder.setTitle("Time for eating is wrong")
+                            .setMessage("Time for eating should not be ealier than now!")
                             .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -216,8 +270,59 @@ public class NewGroupActivity extends Activity {
         final Dialog dialog = new Dialog(this);
         dialog.setTitle("INVITE FRIEND");
         dialog.setCancelable(true);
-        dialog.setContentView(R.layout.invite_friend);
+        final View layout = View.inflate(this, R.layout.invite_friend,null);
+        dialog.setContentView(layout);
         dialog.show();
+
+        Button inviteFriend_dialog;
+
+        inviteFriend_dialog = (Button) dialog.findViewById(R.id.inviteFriend);
+
+        inviteFriend_dialog.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                //diaplay.setText(dish.getText().toString());
+                dialog.dismiss();
+
+                EditText inviteFriend_et = (EditText) layout.findViewById(R.id.edUsername);
+                String friendUsername = inviteFriend_et.getText().toString();
+
+                boolean canInvite = false;
+                for(Friend oneFriend : restFriends)
+                {
+                    if(friendUsername.equals(oneFriend.getFirstUsername()))
+                    {
+                        if(currentCustomer.getUsername().equals(oneFriend.getSecondUsername()))
+                        {
+                            canInvite = true;
+                            inviteFriends.add(oneFriend);
+                            restFriends.remove(oneFriend);
+
+                            newGroup.invites.put(friendUsername, false);
+
+                            break;
+                        }
+                    }
+                    if(friendUsername.equals(oneFriend.getSecondUsername()))
+                    {
+                        if(currentCustomer.getUsername().equals(oneFriend.getFirstUsername()))
+                        {
+                            canInvite = true;
+                            inviteFriends.add(oneFriend);
+                            restFriends.remove(oneFriend);
+
+                            newGroup.invites.put(friendUsername, false);
+
+                            break;
+                        }
+                    }
+                }
+                if(!canInvite)
+                {
+                    Toast toast=Toast.makeText(getApplicationContext(), "Cannot invite this user.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
 
     }
 

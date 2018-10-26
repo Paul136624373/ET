@@ -14,14 +14,16 @@ import java.util.Objects;
 public class Menu implements Serializable {
 
     private String restaurantName;
+    private String restaurantAddress;
     private Map<String, Map<String, String>> dishes = new LinkedHashMap<>();
 
     public Menu() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Menu(String restaurantName, Map<String, Map<String, String>> dishes) {
+    public Menu(String restaurantName,String restaurantAddress, Map<String, Map<String, String>> dishes) {
         this.restaurantName = restaurantName;
+        this.restaurantAddress = restaurantAddress;
         this.dishes = dishes;
     }
 
@@ -31,6 +33,14 @@ public class Menu implements Serializable {
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public String getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(String restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
     }
 
     public Map<String, Map<String, String>> getDishes() {
@@ -45,6 +55,7 @@ public class Menu implements Serializable {
     public Map<String, Object> toMap() {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         result.put("restaurantName", restaurantName);
+        result.put("restaurantAddress", restaurantAddress);
         result.put("dishes", dishes);
 
         return result;
@@ -56,12 +67,13 @@ public class Menu implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Menu menu = (Menu) o;
         return Objects.equals(restaurantName, menu.restaurantName) &&
+                Objects.equals(restaurantAddress, menu.restaurantAddress) &&
                 Objects.equals(dishes, menu.dishes);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(restaurantName, dishes);
+        return Objects.hash(restaurantName, restaurantAddress, dishes);
     }
 }

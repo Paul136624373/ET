@@ -77,7 +77,7 @@
 
         </LinearLayout>
 
-        <comp5216.sydney.edu.au.keepets.RichTextEditor
+        <comp5620.sydney.edu.au.et.tools.RichTextEditor
             android:id="@+id/richEditor"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

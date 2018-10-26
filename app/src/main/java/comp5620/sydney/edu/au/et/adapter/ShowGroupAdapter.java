@@ -87,6 +87,7 @@ public class ShowGroupAdapter extends ArrayAdapter<Group> {
             }
             contact = contact + username + ": " + phone + "\n";
         }
+        contact = contact.trim();
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.all_display_group, parent, false);

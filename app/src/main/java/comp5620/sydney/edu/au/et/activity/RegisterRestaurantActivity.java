@@ -80,6 +80,23 @@ public class RegisterRestaurantActivity extends Activity {
                     return;
                 }
 
+                if(username.length() < 2)
+                {
+                    // The username is not good
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterRestaurantActivity.this);
+                    builder.setTitle("Bad Username")
+                            .setMessage("Sorry, Username must contain more than two characters.")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Back to the register page
+                                }
+                            });
+
+                    builder.create().show();
+                    return;
+                }
+
                 // Check username in customer and restaurant account
                 for(Customer customer : allCustomers)
                 {
@@ -109,6 +126,22 @@ public class RegisterRestaurantActivity extends Activity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterRestaurantActivity.this);
                         builder.setTitle("Username already exist")
                                 .setMessage("Sorry, the username is already exist.")
+                                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        // Back to the register page
+                                    }
+                                });
+
+                        builder.create().show();
+                        return;
+                    }
+                    if(restaurantName.equals(restaurant.getRestaurantName()))
+                    {
+                        // The restaurant name is already exist
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterRestaurantActivity.this);
+                        builder.setTitle("Restaurant name already exist")
+                                .setMessage("Sorry, the restaurant name is already exist.")
                                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -190,7 +223,7 @@ public class RegisterRestaurantActivity extends Activity {
     {
         final Dialog dialog = new Dialog(this);
         dialog.setTitle("ADD DISH");
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         dialog.setContentView(R.layout.add_menu);
         dialog.show();
 

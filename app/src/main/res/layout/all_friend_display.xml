@@ -10,7 +10,7 @@
     android:paddingTop="5dp">
 
     <LinearLayout
-        android:layout_width="360dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal"
@@ -20,27 +20,28 @@
         android:paddingBottom="5dp">
 
         <ImageView
+            android:id="@+id/friend_iv"
             android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_friend_male"/>
+            android:layout_height="wrap_content" />
             <!--  female    ic_friend_female -->
 
         <TextView
+            android:id="@+id/username_tv"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Skye"
+            android:text=""
             android:textSize="15dp"
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/number_of_people"
+            android:id="@+id/phone_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="0416666666"
+            android:text=""
             android:textSize="15dp"
             android:layout_gravity="center"/>
 
