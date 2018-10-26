@@ -13,6 +13,7 @@ public class Group implements Serializable {
 
     private String groupID;
     private String owner;
+    private String ownerPhone;
     private String eatingTime;
     private String creationTime;
     private String numberOfPeople;
@@ -95,6 +96,14 @@ public class Group implements Serializable {
         this.restaurantName = restaurantName;
     }
 
+    public String getOwnerPhone() {
+        return ownerPhone;
+    }
+
+    public void setOwnerPhone(String ownerPhone) {
+        this.ownerPhone = ownerPhone;
+    }
+
     public String getRestaurantAddress() {
         return restaurantAddress;
     }
@@ -107,6 +116,7 @@ public class Group implements Serializable {
     public Map<String, Object> toMap() {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         result.put("groupID", groupID);
+        result.put("ownerPhone", ownerPhone);
         result.put("owner", owner);
         result.put("eatingTime", eatingTime);
         result.put("creationTime", creationTime);
@@ -127,6 +137,7 @@ public class Group implements Serializable {
         Group group = (Group) o;
         return Objects.equals(groupID, group.groupID) &&
                 Objects.equals(owner, group.owner) &&
+                Objects.equals(ownerPhone, group.ownerPhone) &&
                 Objects.equals(eatingTime, group.eatingTime) &&
                 Objects.equals(creationTime, group.creationTime) &&
                 Objects.equals(numberOfPeople, group.numberOfPeople) &&
@@ -140,6 +151,6 @@ public class Group implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(groupID, owner, eatingTime, creationTime, numberOfPeople, restaurantName, restaurantAddress, members, type, invites);
+        return Objects.hash(groupID, owner, ownerPhone, eatingTime, creationTime, numberOfPeople, restaurantName, restaurantAddress, members, type, invites);
     }
 }
