@@ -7,7 +7,8 @@
     android:paddingBottom="5dp"
     android:paddingLeft="10dp"
     android:paddingRight="5dp"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    android:background="@drawable/restaurant_comment_border">
 
 
     <LinearLayout
