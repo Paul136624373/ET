@@ -13,6 +13,7 @@ import java.util.Objects;
 @IgnoreExtraProperties
 public class Menu implements Serializable {
 
+    private String menuID;
     private String restaurantName;
     private String restaurantAddress;
     public Map<String, Map<String, String>> dishes = new LinkedHashMap<>();
@@ -25,6 +26,14 @@ public class Menu implements Serializable {
         this.restaurantName = restaurantName;
         this.restaurantAddress = restaurantAddress;
         this.dishes = dishes;
+    }
+
+    public String getMenuID() {
+        return menuID;
+    }
+
+    public void setMenuID(String menuID) {
+        this.menuID = menuID;
     }
 
     public String getRestaurantName() {
@@ -54,6 +63,7 @@ public class Menu implements Serializable {
     @Exclude
     public Map<String, Object> toMap() {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.put("menuID", menuID);
         result.put("restaurantName", restaurantName);
         result.put("restaurantAddress", restaurantAddress);
         result.put("dishes", dishes);
@@ -66,7 +76,8 @@ public class Menu implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Menu menu = (Menu) o;
-        return Objects.equals(restaurantName, menu.restaurantName) &&
+        return Objects.equals(menuID, menu.menuID) &&
+                Objects.equals(restaurantName, menu.restaurantName) &&
                 Objects.equals(restaurantAddress, menu.restaurantAddress) &&
                 Objects.equals(dishes, menu.dishes);
     }
@@ -74,6 +85,6 @@ public class Menu implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(restaurantName, restaurantAddress, dishes);
+        return Objects.hash(menuID, restaurantName, restaurantAddress, dishes);
     }
 }

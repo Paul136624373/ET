@@ -59,7 +59,7 @@ public class MyMenuAdapter extends ArrayAdapter<Map<String, String>> {
         Map<String, String> oneDish = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.post_comments, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.display_menu, parent, false);
         }
 
         TextView dishname_tv = (TextView) convertView.findViewById(R.id.dishname);

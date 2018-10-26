@@ -82,6 +82,7 @@
             android:layout_gravity="center"/>
 
         <RadioGroup
+            android:id="@+id/dish_rg"
             android:layout_width="277dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">

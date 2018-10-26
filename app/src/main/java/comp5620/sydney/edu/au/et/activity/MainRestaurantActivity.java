@@ -14,9 +14,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +37,8 @@ import comp5620.sydney.edu.au.et.R;
 import comp5620.sydney.edu.au.et.adapter.MyFriendsAdapter;
 import comp5620.sydney.edu.au.et.adapter.MyMenuAdapter;
 import comp5620.sydney.edu.au.et.adapter.ReservationAdapter;
+import comp5620.sydney.edu.au.et.model.Customer;
+import comp5620.sydney.edu.au.et.model.Friend;
 import comp5620.sydney.edu.au.et.model.Group;
 import comp5620.sydney.edu.au.et.model.Menu;
 import comp5620.sydney.edu.au.et.model.Restaurant;
@@ -64,7 +71,7 @@ public class MainRestaurantActivity extends Activity {
             topBar_text = (TextView)findViewById(R.id.topBar_text);
             displayAllComment = (ListView)findViewById(R.id.displayAllComment);
             displayAllMenu = (ListView)findViewById(R.id.displayAllMenu);
-            displayAllReservation = (ListView)findViewById(R.id.displayAllMenu);
+            displayAllReservation = (ListView)findViewById(R.id.displayAllReservation);
 
             add_menu = (ImageButton)findViewById(R.id.btn_add_menu);
             add_menu.setOnClickListener(new View.OnClickListener() {
@@ -134,10 +141,11 @@ public class MainRestaurantActivity extends Activity {
         if(myGroups == null) {
             myGroups = new ArrayList<>();
         }
-        if(myMenu == null) {
-            myMenu = new Menu();
-        }
         myDishes = new ArrayList<>();
+
+        for (Map<String, String> value : myMenu.dishes.values()) {
+            myDishes.add(value);
+        }
 
         initReservationView();
 
@@ -183,8 +191,9 @@ public class MainRestaurantActivity extends Activity {
     {
         final Dialog dialog = new Dialog(this);
         dialog.setTitle("ADD Dish");
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.add_menu);
+        dialog.setCancelable(true);
+        final View layout = View.inflate(this, R.layout.add_menu,null);
+        dialog.setContentView(layout);
         dialog.show();
 
 
@@ -194,6 +203,49 @@ public class MainRestaurantActivity extends Activity {
             public void onClick(View arg0) {
                 //diaplay.setText(dish.getText().toString());
                 dialog.dismiss();
+
+                EditText edDish_et = (EditText) layout.findViewById(R.id.edDish);
+                EditText edPrice_et = (EditText) layout.findViewById(R.id.edPrice);
+                String dishName = edDish_et.getText().toString();
+                String dishPrice = edPrice_et.getText().toString();
+                RadioGroup dish_rg = (RadioGroup)layout.findViewById(R.id.dish_rg);
+                RadioButton flavour_rb = (RadioButton)layout.findViewById(dish_rg.getCheckedRadioButtonId());
+                String dishFlavour = flavour_rb.getText().toString();
+
+                boolean exist = false;
+                for(Map<String, String> oneDish : myDishes)
+                {
+                    for (Map.Entry<String, String> entry : oneDish.entrySet()) {
+                        if(entry.getKey().equals("name")){
+                            if(entry.getValue().equals(dishName))
+                            {
+                                exist = true;
+                            }
+                        }
+                    }
+                }
+                if(exist)
+                {
+                    Toast toast=Toast.makeText(getApplicationContext(), "The dish is already exist.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else
+                {
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                    // Store new menu information into the database
+                    Menu newMenu = myMenu;
+                    String dishKey = mDatabase.child("menus").child(newMenu.getMenuID()).child("dishes").push().getKey();
+                    Map<String, String> detail = new LinkedHashMap<>();
+                    detail.put("name", dishName);
+                    detail.put("price", "$" + dishPrice);
+                    detail.put("flavour", dishFlavour);
+                    newMenu.dishes.put(dishKey, detail);
+                    Map<String, Object> menuValues = newMenu.toMap();
+                    Map<String, Object> childUpdates = new LinkedHashMap<>();
+                    childUpdates.put("/menus/" +  newMenu.getMenuID(), menuValues);
+                    mDatabase.updateChildren(childUpdates);
+                }
             }
         });
 
@@ -208,11 +260,6 @@ public class MainRestaurantActivity extends Activity {
 
     // Initialize the view of Friend
     public void initMenuView(){
-
-        for (Map<String, String> value : myMenu.dishes.values()) {
-            myDishes.add(value);
-        }
-
         ListView menu_lv = findViewById(R.id.displayAllMenu);
         myMenuAdapter = new MyMenuAdapter(MainRestaurantActivity.this,0, myDishes);
         menu_lv.setAdapter(myMenuAdapter);
@@ -279,6 +326,7 @@ public class MainRestaurantActivity extends Activity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                myDishes.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     // TODO: handle the post
 

@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,6 +38,9 @@ public class RegisterRestaurantActivity extends Activity {
     private List<Restaurant> allRestaurants;
     private Restaurant newRestaurant;
     private Menu newMenu;
+    private Button addMenu_dialog;
+    private List<Map<String, String>> myDishes;
+    private String menuID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +49,15 @@ public class RegisterRestaurantActivity extends Activity {
 
         allCustomers =  (ArrayList<Customer>) getIntent().getSerializableExtra("allCustomers");
         allRestaurants =  (ArrayList<Restaurant>) getIntent().getSerializableExtra("allRestaurants");
+        newMenu = new Menu();
+        myDishes = new ArrayList<>();
+        menuID = "";
 
         Button addMenu = (Button) findViewById(R.id.addMenu);
         addMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                show();
+                showAddMenu();
             }
         });
 
@@ -173,22 +182,22 @@ public class RegisterRestaurantActivity extends Activity {
                     return;
                 }
 
-                newRestaurant = new Restaurant(username, password, restaurantName, address);
+                newRestaurant = new Restaurant(username, password, address, restaurantName);
+
+                newMenu.setRestaurantName(restaurantName);
+                newMenu.setRestaurantAddress(address);
 
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-                // If the restaurant add any dish into the menu
-                if(newMenu != null)
-                {
-                    newMenu.setRestaurantName(restaurantName);
-
-                    // Store new menu information into the database
-                    String restaurantKey = mDatabase.child("menus").push().getKey();
-                    Map<String, Object> menuValues = newMenu.toMap();
-                    Map<String, Object> childUpdates = new LinkedHashMap<>();
-                    childUpdates.put("/menus/" +  restaurantKey, menuValues);
-                    mDatabase.updateChildren(childUpdates);
+                // Store new menu information into the database
+                if(menuID.equals("")) {
+                    menuID = mDatabase.child("menus").push().getKey();
                 }
+                newMenu.setMenuID(menuID);
+                Map<String, Object> menuValues = newMenu.toMap();
+                Map<String, Object> childUpdates_menu = new LinkedHashMap<>();
+                childUpdates_menu.put("/menus/" +  menuID, menuValues);
+                mDatabase.updateChildren(childUpdates_menu);
 
                 // Store new restaurant information into the database
                 String restaurantKey = mDatabase.child("restaurants").push().getKey();
@@ -219,21 +228,64 @@ public class RegisterRestaurantActivity extends Activity {
         });
     }
 
-    public void show()
+    public void showAddMenu()
     {
         final Dialog dialog = new Dialog(this);
-        dialog.setTitle("ADD DISH");
+        dialog.setTitle("ADD Dish");
         dialog.setCancelable(true);
-        dialog.setContentView(R.layout.add_menu);
+        final View layout = View.inflate(this, R.layout.add_menu,null);
+        dialog.setContentView(layout);
         dialog.show();
 
 
-        add = (Button) dialog.findViewById(R.id.addDish);
+        addMenu_dialog = (Button) dialog.findViewById(R.id.addDish);
 
-        add.setOnClickListener(new View.OnClickListener() {
+        addMenu_dialog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 //diaplay.setText(dish.getText().toString());
                 dialog.dismiss();
+
+                EditText edDish_et = (EditText) layout.findViewById(R.id.edDish);
+                EditText edPrice_et = (EditText) layout.findViewById(R.id.edPrice);
+                String dishName = edDish_et.getText().toString();
+                String dishPrice = edPrice_et.getText().toString();
+                RadioGroup dish_rg = (RadioGroup)layout.findViewById(R.id.dish_rg);
+                RadioButton flavour_rb = (RadioButton)layout.findViewById(dish_rg.getCheckedRadioButtonId());
+                String dishFlavour = flavour_rb.getText().toString();
+
+                boolean exist = false;
+                for(Map<String, String> oneDish : myDishes)
+                {
+                    for (Map.Entry<String, String> entry : oneDish.entrySet()) {
+                        if(entry.getKey().equals("name")){
+                            if(entry.getValue().equals(dishName))
+                            {
+                                exist = true;
+                            }
+                        }
+                    }
+                }
+                if(exist)
+                {
+                    Toast toast=Toast.makeText(getApplicationContext(), "The dish is already exist.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else
+                {
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                    // Store new menu information into the database
+
+                    menuID = mDatabase.child("menus").push().getKey();
+                    String dishKey = mDatabase.child("menus").child(menuID).child("dishes").push().getKey();
+                    Map<String, String> detail = new LinkedHashMap<>();
+                    detail.put("name", dishName);
+                    detail.put("price", "$" + dishPrice);
+                    detail.put("flavour", dishFlavour);
+                    newMenu.dishes.put(dishKey, detail);
+                    newMenu.setMenuID(menuID);
+                    myDishes.add(detail);
+                }
             }
         });
 

@@ -1,7 +1,9 @@
 package comp5620.sydney.edu.au.et.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -263,6 +265,36 @@ public class MainCustomerActivity extends Activity {
                 intent.putExtra("joinedGroups", (Serializable) joinedGroups);
                 intent.putExtra("currentCustomer", (Serializable) currentCustomer);
                 startActivity(intent);
+            }
+        });
+
+        Button btn_logout = findViewById(R.id.btn_log_out);
+
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainCustomerActivity.this);
+                builder.setTitle("Logout")
+                        .setMessage("Do you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(MainCustomerActivity.this,LoginActivity.class);
+                                startActivity(intent);
+
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // User cancelled the dialog and nothing will be deleted.
+                            }
+                        });
+
+                builder.create().show();
+
             }
         });
     }
