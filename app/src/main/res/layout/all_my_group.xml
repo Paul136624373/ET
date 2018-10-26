@@ -7,9 +7,39 @@
     android:paddingBottom="5dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    android:id="@+id/border">
     <!-- android:background="@drawable/my_group_border"   my group border-->
     <!-- android:background="@drawable/joined_group_border"   joined group border-->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp">
+
+        <TextView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Owner:"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/owner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=""
+            android:textSize="15dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -35,7 +65,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="1/5"
+            android:text=""
             android:textSize="15dp" />
 
     </LinearLayout>
@@ -64,7 +94,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="2018-10-26 12:30"
+            android:text=""
             android:textSize="15dp" />
 
     </LinearLayout>
@@ -93,7 +123,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Skye:0416666666"
+            android:text=""
             android:textSize="15dp" />
     </LinearLayout>
 
@@ -121,7 +151,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Hot pot"
+            android:text=""
             android:textSize="15dp" />
     </LinearLayout>
 
@@ -149,7 +179,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="8 hampden st"
+            android:text=""
             android:textSize="15dp" />
     </LinearLayout>
 
@@ -160,8 +190,9 @@
         android:gravity="right"
         android:layout_gravity="center"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="12:42"
+        android:paddingRight="15dp"
+        android:paddingBottom="5dp"
+        android:text=""
         android:textSize="10dp" />
 
     <Button

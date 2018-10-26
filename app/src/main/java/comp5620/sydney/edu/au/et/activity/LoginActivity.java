@@ -118,8 +118,22 @@ public class LoginActivity extends Activity {
                                         eatingTime = eatingTime.replace("/", "");
                                         eatingTime = eatingTime.replace(" ", "");
                                         eatingTime = eatingTime.replace(":", "");
-                                        if(currentNumber < Integer.parseInt(oneGroup.getNumberOfPeople()) && oneGroup.getType().equals("Public") && Long.parseLong(eatingTime) > Long.parseLong(currentTime)) {
-                                            showGroups.add(oneGroup);
+                                        if(currentNumber < Integer.parseInt(oneGroup.getNumberOfPeople()) && Long.parseLong(eatingTime) > Long.parseLong(currentTime)) {
+                                            if(oneGroup.getType().equals("Public")) {
+                                                showGroups.add(oneGroup);
+                                            }
+                                            else
+                                            {
+                                                // If the user is invited to the group
+                                                boolean beInvited = false;
+                                                for (String key : oneGroup.invites.keySet()) {
+                                                    if(key.equals(theCustomer.getUsername()))
+                                                    {
+                                                        showGroups.add(oneGroup);
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }

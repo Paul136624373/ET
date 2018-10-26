@@ -39,6 +39,7 @@ import comp5620.sydney.edu.au.et.adapter.ShowGroupAdapter;
 import comp5620.sydney.edu.au.et.model.Customer;
 import comp5620.sydney.edu.au.et.model.Friend;
 import comp5620.sydney.edu.au.et.model.Group;
+import comp5620.sydney.edu.au.et.model.Menu;
 import comp5620.sydney.edu.au.et.model.Post;
 import comp5620.sydney.edu.au.et.model.Restaurant;
 import comp5620.sydney.edu.au.et.tools.MarshmallowPermission;
@@ -73,6 +74,9 @@ public class MainCustomerActivity extends Activity {
     // For friend
     private List<Friend> myFriends;
     private MyFriendsAdapter myFriendsAdapter;
+
+    // For profile related function
+    private List<Menu> allMenus;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -173,9 +177,18 @@ public class MainCustomerActivity extends Activity {
         myFriends = (List<Friend>) getIntent().getSerializableExtra("myFriends");
         joinedGroups = new ArrayList<>();
         ownedGroups = new ArrayList<>();
+        allMenus = new ArrayList<>();
         if(myFriends == null)
         {
             myFriends = new ArrayList<>();
+        }
+        if(myPosts == null)
+        {
+            myPosts = new ArrayList<>();
+        }
+        if(allCustomers == null)
+        {
+            allCustomers = new ArrayList<>();
         }
 
         // Initialize adapter
@@ -245,7 +258,11 @@ public class MainCustomerActivity extends Activity {
         btn_my_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainCustomerActivity.this,MyGroupActivity.class);
+                intent.putExtra("ownedGroups", (Serializable) ownedGroups);
+                intent.putExtra("joinedGroups", (Serializable) joinedGroups);
+                intent.putExtra("currentCustomer", (Serializable) currentCustomer);
+                startActivity(intent);
             }
         });
     }
@@ -333,8 +350,22 @@ public class MainCustomerActivity extends Activity {
                         eatingTime = eatingTime.replace("/", "");
                         eatingTime = eatingTime.replace(" ", "");
                         eatingTime = eatingTime.replace(":", "");
-                        if(currentNumber < Integer.parseInt(oneGroup.getNumberOfPeople()) && oneGroup.getType().equals("Public") && Long.parseLong(eatingTime) > Long.parseLong(currentTime)) {
-                            showGroups.add(oneGroup);
+                        if(currentNumber < Integer.parseInt(oneGroup.getNumberOfPeople()) && Long.parseLong(eatingTime) > Long.parseLong(currentTime)) {
+                            if(oneGroup.getType().equals("Public")) {
+                                showGroups.add(oneGroup);
+                            }
+                            else
+                            {
+                                // If the user is invited to the group
+                                boolean beInvited = false;
+                                for (String key : oneGroup.invites.keySet()) {
+                                    if(key.equals(currentCustomer.getUsername()))
+                                    {
+                                        showGroups.add(oneGroup);
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                     else
@@ -433,6 +464,7 @@ public class MainCustomerActivity extends Activity {
             }
         });
     }
+
 
     //------------------------------------------------------------------- End of Database reading ----------------------------------------------------------------------
 
