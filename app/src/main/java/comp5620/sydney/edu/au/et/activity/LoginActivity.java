@@ -312,6 +312,7 @@ public class LoginActivity extends Activity {
         // Read menus from database
         myMenu = new Menu();
         allMenus = new ArrayList<>();
+        myGroups = new ArrayList<>();
         readMenusFromServer();
     }
 
