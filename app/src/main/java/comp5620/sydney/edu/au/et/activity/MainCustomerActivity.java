@@ -45,6 +45,7 @@ import comp5620.sydney.edu.au.et.model.Group;
 import comp5620.sydney.edu.au.et.model.Menu;
 import comp5620.sydney.edu.au.et.model.Post;
 import comp5620.sydney.edu.au.et.model.Restaurant;
+import comp5620.sydney.edu.au.et.model.RestaurantComment;
 import comp5620.sydney.edu.au.et.tools.MarshmallowPermission;
 
 import static android.support.constraint.Constraints.TAG;
@@ -68,6 +69,7 @@ public class MainCustomerActivity extends Activity {
     private List<Group> joinedGroups;
     private List<Group> ownedGroups;
     private List<Customer> allCustomers;
+    private List<RestaurantComment> allRestaurantComments;
 
     // For forum
     private List<Post> allPosts;
@@ -181,6 +183,7 @@ public class MainCustomerActivity extends Activity {
         joinedGroups = new ArrayList<>();
         ownedGroups = new ArrayList<>();
         allMenus = new ArrayList<>();
+        allRestaurantComments = new ArrayList<>();
         if(myFriends == null)
         {
             myFriends = new ArrayList<>();
@@ -206,6 +209,8 @@ public class MainCustomerActivity extends Activity {
         readCustomersFromServer();
         readPostsFromServer();
         readFriendsFromServer();
+        readCommentsFromServer();
+        readMenusFromServer();
 
         // Start of group function
 
@@ -264,6 +269,8 @@ public class MainCustomerActivity extends Activity {
                 Intent intent = new Intent(MainCustomerActivity.this,MyGroupActivity.class);
                 intent.putExtra("ownedGroups", (Serializable) ownedGroups);
                 intent.putExtra("joinedGroups", (Serializable) joinedGroups);
+                intent.putExtra("allMenus", (Serializable) allMenus);
+                intent.putExtra("allRestaurantComments", (Serializable) allRestaurantComments);
                 intent.putExtra("currentCustomer", (Serializable) currentCustomer);
                 startActivity(intent);
             }
@@ -498,6 +505,66 @@ public class MainCustomerActivity extends Activity {
         });
     }
 
+    // Get all comments from server
+    private void readCommentsFromServer()
+    {
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference date = mReference.child("comments");
+
+        // Read from the database
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                allRestaurantComments.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    RestaurantComment oneRestaurantComment = postSnapshot.getValue(RestaurantComment.class);
+
+                    allRestaurantComments.add(oneRestaurantComment);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+
+    // Get all menus from server
+    private void readMenusFromServer()
+    {
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference date = mReference.child("menus");
+
+        // Read from the database
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                allMenus.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    Menu oneMenu = postSnapshot.getValue(Menu.class);
+
+                    allMenus.add(oneMenu);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
 
     //------------------------------------------------------------------- End of Database reading ----------------------------------------------------------------------
 

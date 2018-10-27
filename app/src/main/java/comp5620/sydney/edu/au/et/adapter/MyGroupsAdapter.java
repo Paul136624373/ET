@@ -27,6 +27,7 @@ import comp5620.sydney.edu.au.et.R;
 import comp5620.sydney.edu.au.et.model.Customer;
 import comp5620.sydney.edu.au.et.model.Group;
 import comp5620.sydney.edu.au.et.model.Post;
+import comp5620.sydney.edu.au.et.model.RestaurantComment;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -37,8 +38,9 @@ public class MyGroupsAdapter extends ArrayAdapter<Group> {
     private List<Group> ownedGroups;
     private List<Group> joinedGroups;
     private Customer currentCustomer;
+    private List<RestaurantComment> allRestaurantComments;
 
-    public MyGroupsAdapter(Context context, int resourceId, List<Group> myGroups, List<Group> ownedGroups, List<Group> joinedGroups, Customer currentCustomer) {
+    public MyGroupsAdapter(Context context, int resourceId, List<Group> myGroups, List<Group> ownedGroups, List<Group> joinedGroups, Customer currentCustomer, List<RestaurantComment> allRestaurantComments) {
         super(context, resourceId, myGroups);
 
         this.context = context;
@@ -46,6 +48,7 @@ public class MyGroupsAdapter extends ArrayAdapter<Group> {
         this.ownedGroups = ownedGroups;
         this.joinedGroups = joinedGroups;
         this.currentCustomer = currentCustomer;
+        this.allRestaurantComments = allRestaurantComments;
     }
 
     @Override
@@ -139,7 +142,17 @@ public class MyGroupsAdapter extends ArrayAdapter<Group> {
             eatingTime = eatingTime.replace(" ", "");
             eatingTime = eatingTime.replace(":", "");
 
-            if(Long.parseLong(eatingTime) < Long.parseLong(currentTime)) {
+            boolean alreadyComment = false;
+            for(RestaurantComment oneComment : allRestaurantComments)
+            {
+                // If the customer has comment this restaurant as a member in this group
+                if(oneComment.getAuthor().equals(currentCustomer.getUsername()) && oneGroup.getGroupID().equals(oneComment.getGroupID()))
+                {
+                    alreadyComment = true;
+                }
+            }
+
+            if(Long.parseLong(eatingTime) < Long.parseLong(currentTime) && !alreadyComment) {
                 btComment.setVisibility(View.VISIBLE);
             }
         }

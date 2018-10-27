@@ -225,7 +225,6 @@ public class NewGroupActivity extends Activity {
 
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-                // Store new restaurant information into the database
                 String groupKey = mDatabase.child("groups").push().getKey();
                 newGroup.setGroupID(groupKey);
                 Map<String, Object> groupValues = newGroup.toMap();

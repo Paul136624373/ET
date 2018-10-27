@@ -149,6 +149,9 @@ public class MainRestaurantActivity extends Activity {
         if(myGroups == null) {
             myGroups = new ArrayList<>();
         }
+        if(myRestaurantComments == null) {
+            myRestaurantComments = new ArrayList<>();
+        }
         myDishes = new ArrayList<>();
 
         for (Map<String, String> value : myMenu.dishes.values()) {

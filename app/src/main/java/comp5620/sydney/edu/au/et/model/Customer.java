@@ -105,4 +105,23 @@ public class Customer implements Serializable {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(username, customer.username) &&
+                Objects.equals(password, customer.password) &&
+                Objects.equals(surname, customer.surname) &&
+                Objects.equals(givenName, customer.givenName) &&
+                Objects.equals(phoneNumber, customer.phoneNumber) &&
+                Objects.equals(address, customer.address) &&
+                Objects.equals(gender, customer.gender);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(username, password, surname, givenName, phoneNumber, address, gender);
+    }
 }
