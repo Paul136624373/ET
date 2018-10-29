@@ -210,16 +210,20 @@ public class ViewPostActivity extends Activity {
 
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == CREATE_COMMENT_REQUEST_CODE) {
-            thePost = (Post) data.getSerializableExtra("thePost");
+            try {
+                thePost = (Post) data.getSerializableExtra("thePost");
 
-            allComments.clear();
-            for (Map<String, String> value : thePost.comments.values()) {
-                allComments.add(value);
+                allComments.clear();
+                for (Map<String, String> value : thePost.comments.values()) {
+                    allComments.add(value);
+                }
+
+                sortComments(allComments);
+                setListViewHeightBasedOnChildren(comments_list);
+                commentAdapter.notifyDataSetChanged();
             }
-
-            sortComments(allComments);
-            setListViewHeightBasedOnChildren(comments_list);
-            commentAdapter.notifyDataSetChanged();
+            catch (Exception e)
+            { }
         }
     }
 
